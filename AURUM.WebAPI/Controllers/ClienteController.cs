@@ -28,6 +28,14 @@ namespace AURUM.WebAPI.Controllers
             return Consultar(() => _apl.TraerUno(IdUsuario, idcliente));
         }
 
+        [HttpGet]
+        [Route("historial/{idcliente}")]
+        public ActionResult Historial(Guid idcliente, [FromQuery] int limite = 100)
+        {
+            ClienteAPL _apl = new ClienteAPL(configuration, configuracionAPP);
+            return Consultar(() => _apl.Historial(IdUsuario, idcliente, limite));
+        }
+
         [HttpPost]
         [Route("clienteprc")]
         public ActionResult ClientePrc([FromBody] ParmCliente entidad)

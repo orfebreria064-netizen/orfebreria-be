@@ -31,7 +31,6 @@ public class SeguridadRepositorio : RepositorioMSSQL
         parametros.Add("@email", entidad.email);
         parametros.Add("@full_name", entidad.full_name);
         parametros.Add("@password_hash", claveHash);
-        parametros.Add("@company_name", string.IsNullOrWhiteSpace(entidad.company_name) ? "Mi Orfebrería" : entidad.company_name);
         return base.Procesar("api.usp_auth_setup_first_user", parametros);
     }
 
@@ -107,6 +106,7 @@ public class SeguridadRepositorio : RepositorioMSSQL
         parametros.Add("@target_user_id", entidad.user_id);
         parametros.Add("@role", entidad.role);
         parametros.Add("@active", entidad.active);
+        parametros.Add("@full_name", entidad.full_name);
         return base.Procesar("api.usp_user_update", parametros);
     }
 

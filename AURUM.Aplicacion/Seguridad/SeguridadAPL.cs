@@ -47,7 +47,7 @@ public class SeguridadAPL : AplicacionBase
         };
     }
 
-    // Instalación vacía: el primer usuario crea la empresa
+    // Instalación vacía: el primer usuario es el superadministrador (sin empresa)
     public RespuestaProceso PrimerUsuario(ParmPrimerUsuario entidad)
     {
         var error = ClaveAPL.Validar(entidad.clave);

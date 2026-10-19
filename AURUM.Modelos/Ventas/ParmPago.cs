@@ -11,6 +11,7 @@ namespace AURUM.Modelos.Ventas
         public bool is_advance { get; set; }
         public bool overpayment_confirmed { get; set; }
         public Guid? branch_id { get; set; }               // null = sucursal del pedido
+        public string? received_from { get; set; }         // quien entrega el dinero, si no es el cliente
     }
 
     public class ParmAnularPago
@@ -22,7 +23,9 @@ namespace AURUM.Modelos.Ventas
     public class ParmPagoFiltro
     {
         public Guid? order_id { get; set; }
+        public Guid? customer_id { get; set; }
         public Guid? branch_id { get; set; }
+        public string? method { get; set; }
         public DateTime? from { get; set; }
         public DateTime? to { get; set; }
         public bool include_voided { get; set; } = true;
@@ -44,7 +47,7 @@ namespace AURUM.Modelos.Ventas
 
     public class ParmEntregaFiltro
     {
-        public string? status { get; set; }
+        public List<string>? statuses { get; set; }
         public Guid? branch_id { get; set; }
         public Guid? order_id { get; set; }
         public DateTime? from { get; set; }

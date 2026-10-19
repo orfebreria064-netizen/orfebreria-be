@@ -21,7 +21,17 @@ public class PagoRepositorio : RepositorioMSSQL
         parametros.Add("@is_advance", entidad.is_advance);
         parametros.Add("@overpayment_confirmed", entidad.overpayment_confirmed);
         parametros.Add("@branch_id", entidad.branch_id);
+        parametros.Add("@received_from", entidad.received_from);
         return base.Procesar("api.usp_payment_register", parametros);
+    }
+
+    // Recibo de ingreso: asigna el número si el pago aún no lo tiene
+    public RespuestaProceso EmitirRecibo(Guid idUsuario, Guid idPago)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@payment_id", idPago);
+        return base.Procesar("api.usp_payment_issue_receipt", parametros);
     }
 
     public RespuestaProceso Anular(Guid idUsuario, ParmAnularPago entidad)
@@ -38,7 +48,9 @@ public class PagoRepositorio : RepositorioMSSQL
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@order_id", filtro.order_id);
+        parametros.Add("@customer_id", filtro.customer_id);
         parametros.Add("@branch_id", filtro.branch_id);
+        parametros.Add("@method", filtro.method);
         parametros.Add("@from", filtro.from);
         parametros.Add("@to", filtro.to);
         parametros.Add("@include_voided", filtro.include_voided);

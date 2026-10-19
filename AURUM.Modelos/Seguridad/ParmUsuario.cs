@@ -12,6 +12,7 @@ namespace AURUM.Modelos.Seguridad
         public Guid user_id { get; set; }
         public string role { get; set; } = "";
         public bool active { get; set; }
+        public string? full_name { get; set; }            // null = no cambia
     }
 
     public class ParmUsuarioSucursales

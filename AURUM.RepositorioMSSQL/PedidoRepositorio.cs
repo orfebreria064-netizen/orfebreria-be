@@ -12,25 +12,55 @@ public class PedidoRepositorio : RepositorioMSSQL
     {
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
-        parametros.Add("@status", filtro.status);
+        parametros.Add("@statuses", Lista(filtro.statuses));
+        parametros.Add("@exclude_statuses", Lista(filtro.exclude_statuses));
         parametros.Add("@branch_id", filtro.branch_id);
         parametros.Add("@customer_id", filtro.customer_id);
         parametros.Add("@assigned_to", filtro.assigned_to);
+        parametros.Add("@service_type_id", filtro.service_type_id);
         parametros.Add("@search", filtro.search);
         parametros.Add("@only_active", filtro.only_active);
+        parametros.Add("@overdue_only", filtro.overdue_only);
         parametros.Add("@from", filtro.from);
         parametros.Add("@to", filtro.to);
+        parametros.Add("@limit", filtro.limit);
         return base.Listar("api.usp_orders_list", parametros);
     }
 
-    // Pedido con ítems, etapas, historial, pagos, entregas, adjuntos y material del cliente
+    // Pedido con ítems, etapas, historial, pagos, entregas, adjuntos, material del cliente y pagos a joyeros
     public Object TraerUno(Guid idUsuario, Guid idPedido)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@id", idPedido);
         return base.ListarMultiple("api.usp_order_get", parametros,
-            new[] { "pedido", "items", "etapas", "historial", "pagos", "entregas", "adjuntos", "material_cliente" });
+            new[] { "pedido", "items", "etapas", "historial", "pagos", "entregas", "adjuntos", "material_cliente", "pagos_joyero" });
+    }
+
+    // Orden de producción: joyero, material entregado, indicaciones y acabado
+    public RespuestaProceso OrdenProduccion(Guid idUsuario, ParmOrdenProduccion entidad)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@order_id", entidad.order_id);
+        parametros.Add("@jeweler_id", entidad.jeweler_id);
+        parametros.Add("@material_delivered_at", entidad.material_delivered_at);
+        parametros.Add("@material_weight_out", entidad.material_weight_out);
+        parametros.Add("@production_instructions", entidad.production_instructions);
+        parametros.Add("@product_delivered_at", entidad.product_delivered_at);
+        parametros.Add("@weight_returned", entidad.weight_returned);
+        parametros.Add("@production_notes", entidad.production_notes);
+        return base.Procesar("api.usp_order_production_save", parametros);
+    }
+
+    // Proforma (PRO) u orden de producción (OP): asigna el número la primera vez
+    public RespuestaProceso EmitirDocumento(Guid idUsuario, ParmEmitirDocumento entidad)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@order_id", entidad.order_id);
+        parametros.Add("@doc_type", entidad.doc_type);
+        return base.Procesar("api.usp_order_issue_document", parametros);
     }
 
     public RespuestaProceso PedidoPrc(Guid idUsuario, ParmPedido entidad)
@@ -97,7 +127,11 @@ public class PedidoRepositorio : RepositorioMSSQL
         parametros.Add("@stage_id", entidad.stage_id);
         parametros.Add("@status", entidad.status);
         parametros.Add("@assigned_to", entidad.assigned_to);
+        parametros.Add("@set_assigned", entidad.update_assigned);
         parametros.Add("@notes", entidad.notes);
+        parametros.Add("@set_notes", entidad.update_notes);
+        parametros.Add("@name", entidad.name);
+        parametros.Add("@position", entidad.position);
         return base.Procesar("api.usp_order_stage_update", parametros);
     }
 

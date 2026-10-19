@@ -20,6 +20,15 @@ namespace AURUM.WebAPI.Controllers
             return Procesar(() => _apl.Registrar(IdUsuario, entidad));
         }
 
+        // Recibo de ingreso del pago (devuelve su número)
+        [HttpPost]
+        [Route("emitirrecibo/{idpago}")]
+        public ActionResult EmitirRecibo(Guid idpago)
+        {
+            PagoAPL _apl = new PagoAPL(configuration, configuracionAPP);
+            return Procesar(() => _apl.EmitirRecibo(IdUsuario, idpago));
+        }
+
         [HttpPost]
         [Route("anular")]
         public ActionResult Anular([FromBody] ParmAnularPago entidad)

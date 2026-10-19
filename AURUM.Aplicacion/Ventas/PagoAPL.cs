@@ -19,6 +19,12 @@ public class PagoAPL : AplicacionBase
         return _repositorio.Registrar(idUsuario, entidad);
     }
 
+    public RespuestaProceso EmitirRecibo(Guid idUsuario, Guid idPago)
+    {
+        PagoRepositorio _repositorio = new PagoRepositorio(parametrosApp.BD);
+        return _repositorio.EmitirRecibo(idUsuario, idPago);
+    }
+
     public RespuestaProceso Anular(Guid idUsuario, ParmAnularPago entidad)
     {
         PagoRepositorio _repositorio = new PagoRepositorio(parametrosApp.BD);

@@ -60,4 +60,22 @@ public class MaterialAPL : AplicacionBase
         MaterialRepositorio _repositorio = new MaterialRepositorio(parametrosApp.BD);
         return _repositorio.MaterialCliente(idUsuario, idPedido);
     }
+
+    public Object PreciosVigentes(Guid idUsuario)
+    {
+        MaterialRepositorio _repositorio = new MaterialRepositorio(parametrosApp.BD);
+        return _repositorio.PreciosVigentes(idUsuario);
+    }
+
+    public RespuestaProceso RegistrarPrecios(Guid idUsuario, ParmPrecios entidad)
+    {
+        MaterialRepositorio _repositorio = new MaterialRepositorio(parametrosApp.BD);
+        return _repositorio.RegistrarPrecios(idUsuario, entidad);
+    }
+
+    public Object HistorialPrecios(Guid idUsuario, Guid idMaterial)
+    {
+        MaterialRepositorio _repositorio = new MaterialRepositorio(parametrosApp.BD);
+        return _repositorio.HistorialPrecios(idUsuario, idMaterial);
+    }
 }

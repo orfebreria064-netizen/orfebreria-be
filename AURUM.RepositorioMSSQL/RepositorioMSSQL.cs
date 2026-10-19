@@ -24,6 +24,10 @@ namespace AURUM.RepositorioMSSQL
 
         SqlConnection Conexion() => new SqlConnection(_cadenaConexion);
 
+        // Listas de valores ('A,B,C') para los filtros múltiples de los procedimientos (STRING_SPLIT)
+        protected static string? Lista(IEnumerable<string>? valores) =>
+            valores == null || !valores.Any() ? null : string.Join(",", valores);
+
         public Object Listar(string uspBD, DynamicParameters parameters)
         {
             using var con = Conexion();

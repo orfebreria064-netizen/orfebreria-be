@@ -41,7 +41,6 @@ namespace AURUM.Modelos.Seguridad
         public string email { get; set; } = "";
         public string full_name { get; set; } = "";
         public string clave { get; set; } = "";
-        public string? company_name { get; set; }
     }
 
     public class ParmAceptarInvitacion

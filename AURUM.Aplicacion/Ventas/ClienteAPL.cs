@@ -24,6 +24,12 @@ public class ClienteAPL : AplicacionBase
         return _repositorio.TraerUno(idUsuario, idCliente);
     }
 
+    public Object Historial(Guid idUsuario, Guid idCliente, int limite)
+    {
+        ClienteRepositorio _repositorio = new ClienteRepositorio(parametrosApp.BD);
+        return _repositorio.Historial(idUsuario, idCliente, limite);
+    }
+
     public RespuestaProceso ClientePrc(Guid idUsuario, ParmCliente entidad)
     {
         ClienteRepositorio _repositorio = new ClienteRepositorio(parametrosApp.BD);

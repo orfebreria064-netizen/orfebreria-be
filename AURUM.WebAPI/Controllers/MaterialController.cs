@@ -75,5 +75,29 @@ namespace AURUM.WebAPI.Controllers
             MaterialAPL _apl = new MaterialAPL(configuration, configuracionAPP);
             return Consultar(() => _apl.MaterialCliente(IdUsuario, idpedido));
         }
+
+        [HttpGet]
+        [Route("preciosvigentes")]
+        public ActionResult PreciosVigentes()
+        {
+            MaterialAPL _apl = new MaterialAPL(configuration, configuracionAPP);
+            return Consultar(() => _apl.PreciosVigentes(IdUsuario));
+        }
+
+        [HttpPost]
+        [Route("registrarprecios")]
+        public ActionResult RegistrarPrecios([FromBody] ParmPrecios entidad)
+        {
+            MaterialAPL _apl = new MaterialAPL(configuration, configuracionAPP);
+            return Procesar(() => _apl.RegistrarPrecios(IdUsuario, entidad));
+        }
+
+        [HttpGet]
+        [Route("historialprecios/{idmaterial}")]
+        public ActionResult HistorialPrecios(Guid idmaterial)
+        {
+            MaterialAPL _apl = new MaterialAPL(configuration, configuracionAPP);
+            return Consultar(() => _apl.HistorialPrecios(IdUsuario, idmaterial));
+        }
     }
 }

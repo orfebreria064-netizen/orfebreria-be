@@ -100,5 +100,23 @@ namespace AURUM.WebAPI.Controllers
             PedidoAPL _apl = new PedidoAPL(configuration, configuracionAPP);
             return Consultar(() => _apl.Produccion(IdUsuario, filtro));
         }
+
+        // Orden de producción (taller): joyero, material entregado, indicaciones y acabado
+        [HttpPost]
+        [Route("ordenproduccion")]
+        public ActionResult OrdenProduccion([FromBody] ParmOrdenProduccion entidad)
+        {
+            PedidoAPL _apl = new PedidoAPL(configuration, configuracionAPP);
+            return Procesar(() => _apl.OrdenProduccion(IdUsuario, entidad));
+        }
+
+        // Proforma u orden de producción: devuelve el número del documento
+        [HttpPost]
+        [Route("emitirdocumento")]
+        public ActionResult EmitirDocumento([FromBody] ParmEmitirDocumento entidad)
+        {
+            PedidoAPL _apl = new PedidoAPL(configuration, configuracionAPP);
+            return Procesar(() => _apl.EmitirDocumento(IdUsuario, entidad));
+        }
     }
 }

@@ -20,12 +20,13 @@ public class ReporteRepositorio : RepositorioMSSQL
     {
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
-        parametros.Add("@from", filtro.from);
-        parametros.Add("@to", filtro.to);
+        parametros.Add("@from", filtro.from ?? InicioMes());
+        parametros.Add("@to", filtro.to ?? DateTime.Today);
         parametros.Add("@service_type_id", filtro.service_type_id);
         parametros.Add("@customer_id", filtro.customer_id);
         parametros.Add("@assigned_to", filtro.assigned_to);
         parametros.Add("@branch_id", filtro.branch_id);
+        parametros.Add("@currency", filtro.currency);
         return base.Listar("api.usp_report_sales", parametros);
     }
 
@@ -35,6 +36,7 @@ public class ReporteRepositorio : RepositorioMSSQL
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@customer_id", filtro.customer_id);
         parametros.Add("@branch_id", filtro.branch_id);
+        parametros.Add("@currency", filtro.currency);
         return base.Listar("api.usp_report_receivables", parametros);
     }
 
@@ -42,11 +44,12 @@ public class ReporteRepositorio : RepositorioMSSQL
     {
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
-        parametros.Add("@from", filtro.from);
-        parametros.Add("@to", filtro.to);
+        parametros.Add("@from", filtro.from ?? InicioMes());
+        parametros.Add("@to", filtro.to ?? DateTime.Today);
         parametros.Add("@method", filtro.method);
         parametros.Add("@include_voided", filtro.include_voided);
         parametros.Add("@branch_id", filtro.branch_id);
+        parametros.Add("@currency", filtro.currency);
         return base.Listar("api.usp_report_collections", parametros);
     }
 
@@ -78,4 +81,7 @@ public class ReporteRepositorio : RepositorioMSSQL
         parametros.Add("@branch_id", filtro.branch_id);
         return base.Listar("api.usp_report_client_custody", parametros);
     }
+
+    // Periodo por defecto de ventas y cobranza: igual que la pantalla (del 1.º del mes a hoy)
+    private static DateTime InicioMes() => new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
 }

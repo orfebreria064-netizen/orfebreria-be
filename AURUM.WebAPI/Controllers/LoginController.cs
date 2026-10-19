@@ -44,7 +44,7 @@ namespace AURUM.WebAPI.Controllers
             }
         }
 
-        // Instalación vacía: crea la empresa y su administrador
+        // Instalación vacía: crea el superadministrador de la plataforma (sin empresa)
         [AllowAnonymous]
         [EnableRateLimiting("publico")]
         [HttpPost]

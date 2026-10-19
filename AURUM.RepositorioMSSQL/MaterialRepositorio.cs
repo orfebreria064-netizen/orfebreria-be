@@ -1,6 +1,7 @@
 using AURUM.Modelos.Aplicacion;
 using AURUM.Modelos.Materiales;
 using Dapper;
+using System.Text.Json;
 
 namespace AURUM.RepositorioMSSQL;
 
@@ -14,6 +15,7 @@ public class MaterialRepositorio : RepositorioMSSQL
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@branch_id", filtro.branch_id);
         parametros.Add("@include_inactive", filtro.include_inactive);
+        parametros.Add("@type", filtro.type);
         return base.Listar("api.usp_materials_list", parametros);
     }
 
@@ -86,8 +88,11 @@ public class MaterialRepositorio : RepositorioMSSQL
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@material_id", filtro.material_id);
         parametros.Add("@branch_id", filtro.branch_id);
+        parametros.Add("@order_id", filtro.order_id);
+        parametros.Add("@movement_type", filtro.movement_type);
         parametros.Add("@from", filtro.from);
         parametros.Add("@to", filtro.to);
+        parametros.Add("@limit", filtro.limit ?? 500);
         return base.Listar("api.usp_material_kardex", parametros);
     }
 
@@ -97,5 +102,30 @@ public class MaterialRepositorio : RepositorioMSSQL
         parametros.Add("@user_id", idUsuario);
         parametros.Add("@order_id", idPedido);
         return base.Listar("api.usp_order_client_materials", parametros);
+    }
+
+    // ---------- Precios del día ----------
+    public Object PreciosVigentes(Guid idUsuario)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        return base.Listar("api.usp_material_prices_current", parametros);
+    }
+
+    public RespuestaProceso RegistrarPrecios(Guid idUsuario, ParmPrecios entidad)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@price_date", entidad.price_date?.Date);
+        parametros.Add("@prices", JsonSerializer.Serialize(entidad.prices));
+        return base.Procesar("api.usp_material_prices_save", parametros);
+    }
+
+    public Object HistorialPrecios(Guid idUsuario, Guid idMaterial)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@material_id", idMaterial);
+        return base.Listar("api.usp_material_price_history", parametros);
     }
 }

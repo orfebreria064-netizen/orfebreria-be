@@ -18,6 +18,7 @@ namespace AURUM.Modelos.Materiales
     {
         public Guid? branch_id { get; set; }              // null = stock consolidado
         public bool include_inactive { get; set; }
+        public string? type { get; set; }
     }
 
     public class ParmMovimiento
@@ -49,11 +50,28 @@ namespace AURUM.Modelos.Materiales
         public decimal min_stock { get; set; }
     }
 
+    // Movimientos de material (kárdex de uno o todos los materiales)
     public class ParmKardex
     {
-        public Guid material_id { get; set; }
+        public Guid? material_id { get; set; }
         public Guid? branch_id { get; set; }
+        public Guid? order_id { get; set; }
+        public string? movement_type { get; set; }
         public DateTime? from { get; set; }
         public DateTime? to { get; set; }
+        public int? limit { get; set; }
+    }
+
+    // Precios del día (S/ por unidad del material)
+    public class ParmPrecios
+    {
+        public DateTime? price_date { get; set; }          // null = hoy
+        public List<ParmPrecioMaterial> prices { get; set; } = new();
+    }
+
+    public class ParmPrecioMaterial
+    {
+        public Guid material_id { get; set; }
+        public decimal price { get; set; }
     }
 }

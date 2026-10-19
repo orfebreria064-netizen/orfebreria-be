@@ -28,6 +28,10 @@ public class ConfiguracionRepositorio : RepositorioMSSQL
         parametros.Add("@tax_rate", entidad.tax_rate);
         parametros.Add("@quote_validity_days", entidad.quote_validity_days);
         parametros.Add("@default_terms", entidad.default_terms);
+        parametros.Add("@logo", entidad.logo);
+        parametros.Add("@slogan", entidad.slogan);
+        parametros.Add("@mobile", entidad.mobile);
+        parametros.Add("@city", entidad.city);
         return base.Procesar("api.usp_settings_update", parametros);
     }
 

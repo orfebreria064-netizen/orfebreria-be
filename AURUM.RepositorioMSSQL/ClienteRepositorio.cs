@@ -26,6 +26,16 @@ public class ClienteRepositorio : RepositorioMSSQL
         return base.ListarMultiple("api.usp_customer_get", parametros, new[] { "cliente", "resumen", "contactos", "pedidos" }, 2);
     }
 
+    // Historial de auditoría de los pedidos del cliente
+    public Object Historial(Guid idUsuario, Guid idCliente, int limite)
+    {
+        var parametros = new DynamicParameters();
+        parametros.Add("@user_id", idUsuario);
+        parametros.Add("@customer_id", idCliente);
+        parametros.Add("@limit", limite);
+        return base.Listar("api.usp_customer_history", parametros);
+    }
+
     public RespuestaProceso ClientePrc(Guid idUsuario, ParmCliente entidad)
     {
         var parametros = new DynamicParameters();

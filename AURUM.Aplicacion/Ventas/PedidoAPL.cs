@@ -78,4 +78,16 @@ public class PedidoAPL : AplicacionBase
         PedidoRepositorio _repositorio = new PedidoRepositorio(parametrosApp.BD);
         return _repositorio.Produccion(idUsuario, filtro);
     }
+
+    public RespuestaProceso OrdenProduccion(Guid idUsuario, ParmOrdenProduccion entidad)
+    {
+        PedidoRepositorio _repositorio = new PedidoRepositorio(parametrosApp.BD);
+        return _repositorio.OrdenProduccion(idUsuario, entidad);
+    }
+
+    public RespuestaProceso EmitirDocumento(Guid idUsuario, ParmEmitirDocumento entidad)
+    {
+        PedidoRepositorio _repositorio = new PedidoRepositorio(parametrosApp.BD);
+        return _repositorio.EmitirDocumento(idUsuario, entidad);
+    }
 }

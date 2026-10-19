@@ -12,6 +12,11 @@ namespace AURUM.Modelos.Configuracion
         public decimal? tax_rate { get; set; }
         public int? quote_validity_days { get; set; }
         public string? default_terms { get; set; }
+        // Marca para los documentos impresos
+        public string? logo { get; set; }                  // data URL (PNG/JPEG)
+        public string? slogan { get; set; }                // una línea por viñeta
+        public string? mobile { get; set; }
+        public string? city { get; set; }
     }
 
     public class ParmServicio

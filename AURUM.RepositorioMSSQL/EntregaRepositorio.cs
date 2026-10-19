@@ -38,7 +38,7 @@ public class EntregaRepositorio : RepositorioMSSQL
     {
         var parametros = new DynamicParameters();
         parametros.Add("@user_id", idUsuario);
-        parametros.Add("@status", filtro.status);
+        parametros.Add("@statuses", Lista(filtro.statuses));
         parametros.Add("@branch_id", filtro.branch_id);
         parametros.Add("@order_id", filtro.order_id);
         parametros.Add("@from", filtro.from);

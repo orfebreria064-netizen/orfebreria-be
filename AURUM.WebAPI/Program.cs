@@ -21,7 +21,8 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new FechaJsonConverter()));
 builder.Services.AddEndpointsApiExplorer();
 
 //Configuration
@@ -109,7 +110,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// En desarrollo el frontend llama por http://localhost:5227: redirigir a https rompe las llamadas del navegador
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
